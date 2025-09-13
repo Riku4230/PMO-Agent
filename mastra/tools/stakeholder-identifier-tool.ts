@@ -119,7 +119,42 @@ JSON形式で出力してください。
       }
 
       const data = await response.json();
-      const result = JSON.parse(data.choices[0].message.content);
+      
+      // 新しいOpenAI APIレスポンス形式に対応
+      let content;
+      
+      if (data.output && data.output[0] && data.output[0].content) {
+        // 新しいレスポンス形式 (gpt-4.1-2025-04-14)
+        const textContent = data.output[0].content.find((c: any) => c.type === 'output_text');
+        content = textContent ? textContent.text : null;
+      } else if (data.choices && data.choices[0] && data.choices[0].message) {
+        // 従来のレスポンス形式
+        content = data.choices[0].message.content;
+      } else {
+        throw new Error('OpenAI APIからの無効なレスポンス構造');
+      }
+
+      if (!content) {
+        throw new Error('レスポンスからコンテンツを取得できませんでした');
+      }
+
+      let result;
+      
+      // JSON解析（既にオブジェクトの場合はそのまま使用）
+      if (typeof content === 'string') {
+        try {
+          result = JSON.parse(content);
+        } catch (parseError) {
+          console.error('JSON解析エラー:', parseError);
+          console.error('受信したコンテンツ:', content);
+          const errorMessage = parseError instanceof Error ? parseError.message : 'Unknown parse error';
+          throw new Error(`JSON解析に失敗しました: ${errorMessage}`);
+        }
+      } else if (typeof content === 'object') {
+        result = content;
+      } else {
+        throw new Error('予期しないコンテンツタイプ');
+      }
 
       return {
         stakeholder_map: result.stakeholder_map || [],
