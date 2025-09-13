@@ -32,6 +32,40 @@ const ProgressWidget = ({
         <p className="text-xs text-muted-foreground">{description}</p>
       </div>
     </div>
+    {/* 実行中の点滅表示 */}
+    {isRunning && (
+      <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+        <div className="flex gap-1">
+          <div className="h-1.5 w-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+          <div className="h-1.5 w-1.5 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+          <div className="h-1.5 w-1.5 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+        </div>
+        <span>処理中...</span>
+      </div>
+    )}
+  </div>
+);
+
+// 汎用的なツール実行中ウィジェット
+export const GenericToolRunningWidget = ({ toolName }: { toolName: string }) => (
+  <div className="rounded-lg border bg-card p-4 shadow-sm">
+    <div className="flex items-center gap-3">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+        <Loader2 className="h-4 w-4 animate-spin" />
+      </div>
+      <div className="flex-1">
+        <h4 className="font-medium text-sm animate-pulse">実行中: {toolName}</h4>
+        <p className="text-xs text-muted-foreground">ツールを実行しています...</p>
+      </div>
+    </div>
+    <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+      <div className="flex gap-1">
+        <div className="h-1.5 w-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+        <div className="h-1.5 w-1.5 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+        <div className="h-1.5 w-1.5 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+      </div>
+      <span>処理中...</span>
+    </div>
   </div>
 );
 
