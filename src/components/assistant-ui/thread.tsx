@@ -237,19 +237,6 @@ const AssistantMessage: FC = () => {
           />
           <MessageError />
           
-          {/* エージェント実行中でツールが実行されている場合の点滅表示 */}
-          <ThreadPrimitive.If running>
-            <div className="mt-4 flex items-center justify-center">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="flex gap-1">
-                  <div className="h-2 w-2 bg-gray-400 rounded-full animate-pulse"></div>
-                  <div className="h-2 w-2 bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="h-2 w-2 bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-                </div>
-                <span className="animate-pulse">処理中...</span>
-              </div>
-            </div>
-          </ThreadPrimitive.If>
         </div>
 
         <div className="aui-assistant-message-footer mt-2 ml-2 flex">

@@ -59,24 +59,7 @@ export const ToolFallback: ToolCallMessagePartComponent = ({
             <span>ツールを実行しています...</span>
           </div>
         </div>
-      )}
-      
-      {/* エージェント実行中でツール完了後の追加点滅表示 */}
-      <ThreadPrimitive.If running>
-        {!isRunning && (
-          <div className="px-4">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <div className="flex gap-1">
-                <div className="h-2 w-2 bg-gray-400 rounded-full animate-pulse"></div>
-                <div className="h-2 w-2 bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                <div className="h-2 w-2 bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-              </div>
-              <span className="animate-pulse">エージェント処理中...</span>
-            </div>
-          </div>
-        )}
-      </ThreadPrimitive.If>
-      
+      )}      
       {!isCollapsed && !isRunning && (
         <div className="aui-tool-fallback-content flex flex-col gap-2 border-t pt-2">
           <div className="aui-tool-fallback-args-root px-4">
