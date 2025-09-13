@@ -139,7 +139,6 @@ JSON形式で出力してください。
               content: prompt
             }
           ],
-          temperature: 0.3,
           response_format: { type: "json_object" },
         }),
       });
