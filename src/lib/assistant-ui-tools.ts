@@ -4,10 +4,16 @@ import {
   BraveSearchResult,
   JinaScraperWidget,
   JinaScraperResult,
-  DifyRagWidget,
-  DifyRagResult,
-  JobPositionAnalyzerWidget,
-  JobPositionAnalyzerResult,
+  GoalSettingWidget,
+  GoalSettingResult,
+  ActionPlanGeneratorWidget,
+  ActionPlanGeneratorResult,
+  StakeholderIdentifierWidget,
+  StakeholderIdentifierResult,
+  RiskAnalyzerWidget,
+  RiskAnalyzerResult,
+  MilestoneProposerWidget,
+  MilestoneProposerResult,
 } from "@/components/assistant-ui/tool-widgets";
 
 // Assistant UI用のツールマッピング設定
@@ -24,15 +30,33 @@ export const assistantUITools = {
     RenderResult: JinaScraperResult,
   },
   
-  // Dify RAG ツール
-  "dify-rag": {
-    RenderInProgress: DifyRagWidget,
-    RenderResult: DifyRagResult,
+  // Goal Setting Tool
+  "goal-setting-assistant": {
+    RenderInProgress: GoalSettingWidget,
+    RenderResult: GoalSettingResult,
   },
   
-  // Job Position Analyzer ツール
-  "analyze-job-position": {
-    RenderInProgress: JobPositionAnalyzerWidget,
-    RenderResult: JobPositionAnalyzerResult,
+  // Action Plan Generator Tool
+  "action-plan-generator": {
+    RenderInProgress: ActionPlanGeneratorWidget,
+    RenderResult: ActionPlanGeneratorResult,
+  },
+  
+  // Stakeholder Identifier Tool
+  "stakeholder-identifier": {
+    RenderInProgress: StakeholderIdentifierWidget,
+    RenderResult: StakeholderIdentifierResult,
+  },
+  
+  // Risk Analyzer Tool
+  "risk-analyzer": {
+    RenderInProgress: RiskAnalyzerWidget,
+    RenderResult: RiskAnalyzerResult,
+  },
+  
+  // Milestone Proposer Tool
+  "milestone-proposer": {
+    RenderInProgress: MilestoneProposerWidget,
+    RenderResult: MilestoneProposerResult,
   },
 };

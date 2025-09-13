@@ -1,39 +1,179 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PMOエージェント（プロジェクトマネジメントオフィス支援AI）
 
-## Getting Started
+プロジェクト立ち上げフェーズを支援する経験豊富なPMOエキスパートAIエージェントです。キックオフから計画立案まで、そのまま使える高品質なアウトプットを自動生成します。
 
-First, run the development server:
+## 特徴
+
+- **7ステップワークフロー**: プロジェクト立ち上げに必要な全工程を体系的に支援
+- **そのまま使える成果物**: 会議アジェンダ、WBS、リスク登録簿など実用的なアウトプット
+- **LLMベース**: OpenAI GPT-4を活用した高精度な分析と提案
+- **柔軟な実行モード**: フル実行、カスタム選択、個別ツール利用が可能
+
+## 主要機能
+
+### コアワークフロー（7ステップ）
+1. **インプット受付**: キックオフ議事録の解析と構造化
+2. **論点整理とゴール設定**: SMART原則に基づく目標設定
+3. **関係者特定**: ステークホルダー分析とRACIマトリクス作成
+4. **マイルストーン提案**: 複数のパターンから最適案を提示
+5. **アクションプラン生成**: WBSとアクション項目の詳細化
+6. **会議体設計**: 効率的な会議構造の設計
+7. **リスク洗い出し**: 包括的なリスク分析と対策提案
+
+### 利用可能ツール
+- ドキュメント解析ツール
+- 目標設定支援ツール
+- ステークホルダー特定ツール
+- マイルストーン提案ツール
+- アクションプラン生成ツール
+- 会議設計ツール
+- リスク分析ツール
+
+## セットアップ
+
+### 前提条件
+- Node.js 18.0以上
+- OpenAI APIキー
+
+### インストール
+
+```bash
+git clone <repository-url>
+cd pineal-agent-pmo
+npm install
+```
+
+### 環境変数設定
+
+`.env.local`ファイルを作成し、以下を設定：
+
+```env
+OPENAI_API_KEY=your_openai_api_key
+DATABASE_URL=file:pmo.db  # 任意、未設定時は自動設定
+```
+
+### 開発サーバー起動
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ブラウザで [http://localhost:3000](http://localhost:3000) を開きます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 使用方法
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. フルワークフロー実行
 
-## Learn More
+```javascript
+import { pmoAgent } from './mastra/agents/pmo-agent';
+import { pmoProjectSetupWorkflow } from './mastra/workflows/pmo-project-setup-workflow';
 
-To learn more about Next.js, take a look at the following resources:
+// フル7ステップ実行
+const result = await pmoProjectSetupWorkflow.execute({
+  mode: 'full',
+  input_document: '議事録内容...',
+  project_info: {
+    name: 'ECサイト開発',
+    type: 'システム開発',
+    duration: '6ヶ月',
+    team_size: 8
+  }
+});
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. カスタムワークフロー実行
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```javascript
+// 特定ステップのみ実行
+const result = await pmoProjectSetupWorkflow.execute({
+  mode: 'custom',
+  skip_steps: ['document_analysis', 'meeting_design'],
+  project_info: { /* ... */ }
+});
+```
 
-## Deploy on Vercel
+### 3. 個別ツール利用
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```javascript
+import { documentParserTool } from './mastra/tools/document-parser-tool';
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# Deploy retry after IAM permission fix
-# Retry deployment after Artifact Registry permission fix
-# Final retry with enhanced Artifact Registry permissions
+// 議事録分析のみ実行
+const analysis = await documentParserTool.execute({
+  context: {
+    content: '議事録内容...',
+    format: 'meeting_minutes',
+    pmo_perspective: true
+  }
+});
+```
+
+## サンプル
+
+`examples/pmo-kickoff-example.md`にテスト用のサンプルデータと使用例があります。
+
+## 出力例
+
+### プロジェクト憲章
+- SMART目標設定
+- ステークホルダーマップ
+- WBS構造
+- リスク登録簿
+
+### 会議体設計
+- 標準アジェンダテンプレート
+- 参加者マトリクス
+- コミュニケーション計画
+
+### アクションプラン
+- 詳細タスクリスト
+- 責任者割り当て
+- 期限設定
+- 依存関係
+
+## 技術スタック
+
+- **フレームワーク**: Next.js 14
+- **AIエージェント**: Mastra Core
+- **LLM**: OpenAI GPT-4o-mini
+- **データベース**: LibSQL
+- **言語**: TypeScript
+- **バリデーション**: Zod
+
+## プロジェクト構造
+
+```
+mastra/
+├── agents/
+│   └── pmo-agent.ts          # メインエージェント
+├── tools/
+│   ├── document-parser-tool.ts
+│   ├── goal-setting-tool.ts
+│   ├── stakeholder-identifier-tool.ts
+│   ├── milestone-proposer-tool.ts
+│   ├── action-plan-generator-tool.ts
+│   ├── meeting-designer-tool.ts
+│   └── risk-analyzer-tool.ts
+├── workflows/
+│   └── pmo-project-setup-workflow.ts
+└── index.ts
+examples/
+└── pmo-kickoff-example.md
+```
+
+## 貢献
+
+プルリクエストや課題報告を歓迎します。開発に参加する場合は、以下の手順に従ってください：
+
+1. このリポジトリをフォーク
+2. 機能ブランチを作成 (`git checkout -b feature/AmazingFeature`)
+3. 変更をコミット (`git commit -m 'Add some AmazingFeature'`)
+4. ブランチにプッシュ (`git push origin feature/AmazingFeature`)
+5. プルリクエストを作成
+
+## ライセンス
+
+このプロジェクトはMITライセンスの下で公開されています。詳細は`LICENSE`ファイルを参照してください。
+
+## サポート
+
+質問や問題がある場合は、GitHubのIssuesページで報告してください。
