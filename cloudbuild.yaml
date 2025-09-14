@@ -35,7 +35,7 @@ steps:
       - '--timeout'
       - '300'
       - '--set-env-vars'
-      - 'NODE_ENV=production,DIFY_BASE_URL=https://hiroto243.com/v1'
+      - 'NODE_ENV=production,DATABASE_URL=postgresql://pmo-user:pmo-password-2024@34.146.84.149:5432/pmo_agent'
 
 # Store images in Artifact Registry
 images:

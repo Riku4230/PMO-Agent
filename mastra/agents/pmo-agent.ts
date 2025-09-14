@@ -1,7 +1,7 @@
 import { Agent } from "@mastra/core/agent";
 import { openai } from "@ai-sdk/openai";
 import { Memory } from "@mastra/memory";
-import { LibSQLStore } from "@mastra/libsql";
+import { PostgresStore } from "@mastra/pg";
 
 // PMOツールのインポート
 import { documentParserTool } from "../tools/document-parser-tool";
@@ -256,8 +256,8 @@ system_prompt:
   model: openai("gpt-5-nano"),
 
   memory: new Memory({
-    storage: new LibSQLStore({
-      url: process.env.DATABASE_URL || "file:pmo.db",
+    storage: new PostgresStore({
+      connectionString: process.env.DATABASE_URL || "postgresql://pmo-user:pmo-password-2024@34.146.84.149:5432/pmo_agent",
     }),
   }),
 
