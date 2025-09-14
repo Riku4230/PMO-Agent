@@ -3,8 +3,27 @@ import { mastra } from "@/../mastra";
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
-  const agent = mastra.getAgent("pmoAgent"); 
-  const result = await agent.streamVNext(messages, { format: 'aisdk' });
-  return result.toUIMessageStreamResponse(); // assistant-ui と互換のストリーム応答
+  try {
+    const { messages } = await req.json();
+    
+    if (!messages || !Array.isArray(messages)) {
+      return new Response(JSON.stringify({ error: "Invalid messages format" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const agent = mastra.getAgent("pmoAgent"); 
+    const result = await agent.streamVNext(messages, { format: 'aisdk' });
+    return result.toUIMessageStreamResponse(); // assistant-ui と互換のストリーム応答
+  } catch (error) {
+    console.error("API Error:", error);
+    return new Response(JSON.stringify({ 
+      error: "Internal server error", 
+      details: error instanceof Error ? error.message : "Unknown error" 
+    }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 }
