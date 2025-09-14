@@ -10,6 +10,8 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 COPY package.json package-lock.json* ./
 RUN npm install --frozen-lockfile=false
+# Install LibSQL dependencies for Alpine Linux
+RUN npm install @libsql/linux-x64-musl
 
 # Rebuild the source code only when needed
 FROM base AS builder
