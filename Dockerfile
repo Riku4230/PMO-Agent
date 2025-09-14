@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json package-lock.json* ./
-RUN npm install --frozen-lockfile=false
+RUN npm install --frozen-lockfile=false --force
 
 # Rebuild the source code only when needed
 FROM base AS builder
