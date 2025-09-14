@@ -34,6 +34,8 @@ steps:
       - '${_MAX_INSTANCES}'
       - '--timeout'
       - '${_TIMEOUT}'
+      - '--set-env-vars'
+      - 'OPENAI_API_KEY=${_OPENAI_API_KEY},DATABASE_URL=${_DATABASE_URL}'
 
 # Store images in Artifact Registry
 images:
@@ -53,3 +55,5 @@ substitutions:
   _MIN_INSTANCES: '0'
   _MAX_INSTANCES: '10'
   _TIMEOUT: '300'
+  _OPENAI_API_KEY: 'your_openai_api_key_here'
+  _DATABASE_URL: 'file:pmo.db'
