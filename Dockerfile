@@ -1,6 +1,6 @@
 # Next.js + Mastra アプリケーション用 Dockerfile
 # Multi-platform support for Cloud Run deployment
-FROM --platform=$BUILDPLATFORM node:20-alpine AS base
+FROM node:20-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
