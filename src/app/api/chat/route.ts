@@ -1,5 +1,8 @@
 // app/api/chat/route.ts
 import { mastra } from "@/../mastra";
+
+// PostgreSQL接続のためNode.jsランタイムを明示的に指定
+export const runtime = 'nodejs';
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
