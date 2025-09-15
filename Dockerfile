@@ -1,5 +1,6 @@
 # Next.js + Mastra アプリケーション用 Dockerfile
-FROM node:20-alpine AS base
+# Multi-platform support for Cloud Run deployment
+FROM --platform=$BUILDPLATFORM node:20-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -8,7 +9,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json package-lock.json* ./
-RUN npm install --frozen-lockfile=false --force
+RUN npm ci --only=production --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -17,6 +18,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV production
+
 RUN npm run build
 
 # Production image
@@ -39,7 +42,7 @@ RUN chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Include libsql native binaries
+# Include libsql native binaries for Supabase compatibility
 COPY --from=deps --chown=nextjs:nodejs /app/node_modules/@libsql ./node_modules/@libsql
 
 USER nextjs

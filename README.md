@@ -48,9 +48,63 @@ npm install
 `.env.local`ファイルを作成し、以下を設定：
 
 ```env
+# OpenAI API Key
 OPENAI_API_KEY=your_openai_api_key
-DATABASE_URL=file:pmo.db  # 任意、未設定時は自動設定
+
+# Supabase PostgreSQL Database
+DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.[YOUR-PROJECT-REF].supabase.co:5432/postgres
+
+# Supabase API Configuration (optional)
+NEXT_PUBLIC_SUPABASE_URL=https://[YOUR-PROJECT-REF].supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=[YOUR-ANON-KEY]
 ```
+
+### Supabase設定
+
+1. [Supabase](https://supabase.com)でプロジェクトを作成
+2. プロジェクト設定からDatabase URLを取得
+3. 上記の`[YOUR-PASSWORD]`と`[YOUR-PROJECT-REF]`を実際の値に置き換え
+
+## デプロイメント
+
+### Cloud Run デプロイ
+
+```bash
+# 依存関係のインストール
+npm install
+
+# Cloud Runにデプロイ
+npm run deploy:cloudrun
+
+# ローカルビルドでデプロイ（高速）
+npm run deploy:cloudrun:local
+```
+
+**必要な環境変数（Cloud Run）**:
+- `DATABASE_URL`: Supabase PostgreSQL接続文字列
+- `OPENAI_API_KEY`: OpenAI APIキー
+
+### Vercel デプロイ
+
+```bash
+# Vercel CLIのインストール
+npm install -g vercel
+
+# 初回デプロイ
+vercel
+
+# 本番デプロイ
+npm run deploy:vercel
+
+# プレビューデプロイ
+npm run deploy:vercel:preview
+```
+
+**必要な環境変数（Vercel）**:
+- `DATABASE_URL`: Supabase PostgreSQL接続文字列
+- `OPENAI_API_KEY`: OpenAI APIキー
+- `NEXT_PUBLIC_SUPABASE_URL`: SupabaseプロジェクトURL（オプション）
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase匿名キー（オプション）
 
 ### 開発サーバー起動
 

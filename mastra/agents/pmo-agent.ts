@@ -257,7 +257,7 @@ system_prompt:
 
   memory: new Memory({
     storage: new PostgresStore({
-      connectionString: process.env.DATABASE_URL || "postgresql://pmo-user:pmo-password-2024@34.146.84.149:5432/pmo_agent",
+      connectionString: process.env.DATABASE_URL || "postgresql://postgres:[YOUR-PASSWORD]@db.[YOUR-PROJECT-REF].supabase.co:5432/postgres",
     }),
   }),
 

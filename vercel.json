@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/app/api/chat/route.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/chat",
+      "dest": "/src/app/api/chat/route.ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/src/app/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "src/app/api/chat/route.ts": {
+      "maxDuration": 30
+    }
+  },
+  "regions": ["nrt1"]
+}
