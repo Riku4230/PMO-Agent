@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json package-lock.json* ./
-RUN npm ci --only=production --frozen-lockfile
+RUN npm install --only=production
 
 # Rebuild the source code only when needed
 FROM base AS builder
