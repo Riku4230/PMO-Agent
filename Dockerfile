@@ -34,7 +34,7 @@ RUN adduser --system --uid 1001 nextjs
 
 # Install production dependencies
 COPY package.json package-lock.json* ./
-RUN npm ci --only=production && npm cache clean --force
+RUN npm install --only=production && npm cache clean --force
 
 COPY --from=builder /app/public ./public
 
