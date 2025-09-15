@@ -17,6 +17,5 @@
     "src/app/api/chat/route.ts": {
       "maxDuration": 30
     }
-  },
-  "regions": ["nrt1"]
+  }
 }
